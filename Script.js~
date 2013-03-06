@@ -1,9 +1,12 @@
 //change this to initial text..
 var str = null;
+var clrstr = null;
 var printerBusy = false;
+var xmlhttp = null;
+var url = "http://localhost/rbbc526/comms.php";
 function serverComms()
 {
-	if (str.length==0){ 
+	if (clrstr.length==0){ 
 	  //nothing sent to server
 	  // no action
 	  return;
@@ -16,17 +19,27 @@ function serverComms()
 	else{// code for IE6, IE5
 	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	xmlhttp.onreadystatechange=function(){
+	xmlhttp.onreadystatechange=httpHandler();
+
+	debug("Sending asynchronous HTTP GET request to " + url);
+	debug("Parameter q has been set to " + clrstr);
+	xmlhttp.open("GET",url+"?q="+clrstr,true);
+	xmlhttp.send();
+}
+
+function httpHandler(){
 	// all statuses here can be printed to the screen.
+	  debug("http state = " + xmlhttp.readyState);
+  	  debug("http status = " + xmlhttp.readyState);
+  	  debug("http response = " + xmlhttp.response);
 	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
 	  	//this is the function which uses xmlhttp.responseText to use responses from server
 	  	//change this to cute printer
 	       str = xmlhttp.responseText;
 	       debug("Cute printer typing<br/>" + str);
+	       //more debugging
 	     }
-	  }
-	xmlhttp.open("GET","comms.php?q="+str,true);
-	xmlhttp.send();
+
 }
 
 function cutePrinter(appendMode){
@@ -47,7 +60,7 @@ function cutePrinter(appendMode){
  		printerBusy = false;
 	}
 }
-//cld submit
+//clr submit
 function submit(keyPress){
 	//Up key pressed. Use for history..
 	if(keyPress.keyCode==38){
@@ -59,18 +72,20 @@ function submit(keyPress){
 	}
 	//enter key pressed
 	else if(keyPress.keyCode==13){
-		str = document.getElementById("cld").value;
+		clrstr = document.getElementById("clr").value;
 		serverComms();
-		//clear cld
-		document.getElementById("cld").value = "";
-		//send to server
-		
+		//clear clr
+		document.getElementById("clr").value = "";
 	}
 
 }
-function String escapeHTML(html){
-	return html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function debug(dump){
+	       alert(unescapeHTML(escapeHTML(dump)));
 }
-function String unescapeHTML(html){
-	return html.replace( "&amp;",/&/g).replace("&lt;",/</g).replace( "&gt;",/>/g);
+
+function escapeHTML(html){
+	return html.replace("<br/>","\n","g").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function unescapeHTML(html){
+	return html.replace("\n","<br/>","g").replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
 }

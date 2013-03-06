@@ -15,7 +15,6 @@ a{
 /*the console line reader input box*/
 input#cld{
 	width:110%;
-
 	color:#ffffff;
 	background-color:#000000;
 	border: 1px #00ff00 solid;

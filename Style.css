@@ -13,7 +13,7 @@ a{
 	text-decoration:none;
 }
 /*the console line reader input box*/
-input#cld{
+input#clr{
 	width:110%;
 	color:#ffffff;
 	background-color:#000000;

@@ -13,13 +13,14 @@ a{
 	text-decoration:none;
 }
 /*the console line reader input box*/
-input#cld{
+input#clr{
 	width:110%;
 	color:#ffffff;
 	background-color:#000000;
 	border: 1px #00ff00 solid;
 	font-size:13px;
 	padding: 3px ;
+	
 }
 
 

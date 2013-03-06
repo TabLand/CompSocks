@@ -14,9 +14,12 @@ function serverComms(str)
 	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
 	xmlhttp.onreadystatechange=function(){
-	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
+	  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	    {
 	       document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
-	     }
+	  }
+	  else {
+		//set timeout  	
 	  }
 }
 	xmlhttp.open("GET","comms.php?q="+str,true);

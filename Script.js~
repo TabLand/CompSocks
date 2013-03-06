@@ -46,3 +46,7 @@ function cutePrinter(appendMode){
  		printerBusy = false;
 	}
 }
+//cld submit
+function submit(){
+	
+}

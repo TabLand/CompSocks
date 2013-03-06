@@ -47,6 +47,6 @@ function cutePrinter(appendMode){
 	}
 }
 //cld submit
-function submit(){
-	
+function submit(keyPress){
+	document.getElementById("cld").innerHTML = "";
 }

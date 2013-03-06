@@ -17,6 +17,7 @@ function serverComms(str)
 	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
 	xmlhttp.onreadystatechange=function(){
+	// all statuses here can be printed to the screen.
 	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
 	  	//this is the function which uses xmlhttp.responseText to use responses from server
 	  	//change this to cute printer
@@ -44,4 +45,8 @@ function cutePrinter(appendMode){
 	else{
  		printerBusy = false;
 	}
+}
+//cld submit
+function submit(){
+	
 }

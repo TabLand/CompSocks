@@ -2,12 +2,23 @@ body{
 	width:100%;
 	height:100%;
 	color:#00ff00;
+	font-size:13px;
 	background-color:#000000;
 	font-family:"Arial", Verdana, sans-serif;
 }
 a{
 	color: #ffffff;
 	font-weight:bold;
+	text-decoration:none;
+}
+/*the console line reader input box*/
+input#cld{
+	width:90%;
+	color:#ffffff;
+	background-color:#000000;
+	border: 1px #ffffff solid;
+	font-size:13px;
+	padding: 3px ;
 }
 
 

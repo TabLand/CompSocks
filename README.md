@@ -10,6 +10,8 @@ WILL SHARE FTP DETAILS OF COMPSOCKS.NET AFTER TRANSFER
 http://www.w3schools.com/php/php_ajax_php.asp
 PHP Website. Python later...
 
+Visitor count needs to be in binary
+
 No anchors what so ever
 some Links are private
 others are listed in a box which is deleted after 1 second.

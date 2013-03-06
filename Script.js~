@@ -17,6 +17,7 @@ function serverComms(str)
 	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
 	xmlhttp.onreadystatechange=function(){
+	// all statuses here can be printed to the screen.
 	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
 	  	//this is the function which uses xmlhttp.responseText to use responses from server
 	  	//change this to cute printer
@@ -36,9 +37,9 @@ function cutePrinter(appendMode){
 		  setTimeout("cutePrinter("+appendMode+")",timeout);	  
 		}
 		else{
-		  document.getElementById("console").innerHTML += str.substr(0,1);
+		  document.getElementById("console").innerHTML = str.substr(0,1);
   		  str = str.substr(1,str.length-1);
-  		  setTimeout("cutePrinter("+appendMode+")",timeout);
+  		  setTimeout("cutePrinter("+true+")",timeout);
 		}
 	}
 	else{

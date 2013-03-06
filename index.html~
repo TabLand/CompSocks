@@ -6,6 +6,7 @@
 		Welcome, visitor <span> 1 </span> to the City University LSU Computing Society Website.<br/>
 		Here at CompSocks, we believe in simplicity, and 1 dimensional experiences.<br/>
 		Therefore this webpage does not contain any clickable links (though there might be a hack for that).<br/>
-		Please type <a href="Sitemap.html" onclick="waste()">help</a> for help (followed by a carriage return)
+		Please type <a id="help" href="#">help</a> for help (followed by a carriage return)
+		<input type="text" name="consoleLineReader" id="cld" class="cld" onkeydown("submit")/>
 	</body>
 </html>

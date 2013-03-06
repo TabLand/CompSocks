@@ -19,7 +19,7 @@ function serverComms()
 	else{// code for IE6, IE5
 	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	xmlhttp.onreadystatechange=httpHandler();
+	xmlhttp.onreadystatechange=httpHandler;
 
 	debug("Sending asynchronous HTTP GET request to " + url);
 	debug("Parameter q has been set to " + clrstr);
@@ -88,4 +88,9 @@ function escapeHTML(html){
 }
 function unescapeHTML(html){
 	return html.replace("\n","<br/>","g").replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
+}
+function focus(inp){
+	alert(inp.value);
+	inp.select();
+	inp.focus();
 }

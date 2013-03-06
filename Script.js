@@ -89,3 +89,11 @@ function escapeHTML(html){
 function unescapeHTML(html){
 	return html.replace("\n","<br/>","g").replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
 }
+function focus(inp){
+	alert(inp.value);
+	inp.select();
+	inp.focus();
+}
+function focusSet(){
+	focus(document.getElementById("clr"));
+}

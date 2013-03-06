@@ -1,7 +1,7 @@
 //change this to initial text..
 var str = null;
 var printerBusy = false;
-function serverComms(str)
+function serverComms()
 {
 	if (str.length==0){ 
 	  //nothing sent to server
@@ -21,7 +21,8 @@ function serverComms(str)
 	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
 	  	//this is the function which uses xmlhttp.responseText to use responses from server
 	  	//change this to cute printer
-	       document.getElementById("console").innerHTML=xmlhttp.responseText;
+	       str = xmlhttp.responseText;
+	       debug("Cute printer typing<br/>" + str);
 	     }
 	  }
 	xmlhttp.open("GET","comms.php?q="+str,true);
@@ -48,5 +49,28 @@ function cutePrinter(appendMode){
 }
 //cld submit
 function submit(keyPress){
-	document.getElementById("cld").innerHTML = "";
+	//Up key pressed. Use for history..
+	if(keyPress.keyCode==38){
+	
+	}
+	//Up key pressed. Use for history..
+	if(keyPress.keyCode==38){
+	
+	}
+	//enter key pressed
+	else if(keyPress.keyCode==13){
+		str = document.getElementById("cld").value;
+		serverComms();
+		//clear cld
+		document.getElementById("cld").value = "";
+		//send to server
+		
+	}
+
+}
+function String escapeHTML(html){
+	return html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function String unescapeHTML(html){
+	return html.replace( "&amp;",/&/g).replace("&lt;",/</g).replace("&gt;",/>/g);
 }

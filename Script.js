@@ -2,7 +2,7 @@
 var str = null;
 var clrstr = null;
 var xmlhttp = null;
-var timeout = 10;
+var timeout = 0;
 var printing = new Array();
 
 var url = "http://localhost/rbbc526/comms.php";
@@ -49,8 +49,9 @@ function httpHandler(){
 	  	//this is the function which uses xmlhttp.responseText to use responses from server
 	  	//change this to cute printer
 	       str = xmlhttp.responseText;
+       	       //more debugging
 	       debug("Cute printer typing: " + str);
-	       //more debugging
+	       console(str + "<br/>");
 	     }
 	debug("End Packet");
 }
@@ -59,6 +60,7 @@ function cutePrinter(appendMode, id, queueName){
 	print_ing = printing.indexOf(id);
 	queue = eval(queueName);
 	//threading function
+        container = document.getElementById(id);
 	func = "cutePrinter("+appendMode+",\""+id+"\",\""+queueName+"\")"
 	if(queue.length > 0) {
 		//read from start, dont modify queue
@@ -67,33 +69,32 @@ function cutePrinter(appendMode, id, queueName){
 		if(print_ing==-1){
 			printing.push(id);
 		}
+                container.scrollTop=debugDiv.scrollHeight;
 		if(string.length > 0){
 			if(appendMode){
-			  document.getElementById(id).innerHTML += string.substr(0,1);
-  			  string = string.substr(1,string.length-1);
-  			  eval(queueName)[0] = string;
-
-			  setTimeout(func,timeout);	
+			  container.innerHTML += string.substr(0,1);
 		          //alert(func);
 			}
 			else{
-			  document.getElementById(id).innerHTML = string.substr(0,1);
-  			  string = string.substr(1,string.length-1);
+			  container.innerHTML = string.substr(0,1);	
+			}
+			  string = string.substr(1,string.length-1);
   			  eval(queueName)[0] = string;
 			  setTimeout(func,timeout);	
-			}
 		}
 		else{
 			  //string is empty, modify queue
   			  eval(queueName).shift();
     			  setTimeout(func,timeout);
+ 			  refresh(container);
 		}
 	}
 	else{
 		//stop printing if printing
 		if(print_ing!=-1){
-			printing.splice(prin_ting,1);
+			printing.splice(print_ing,1);
 		}
+	 	refresh(container);	
 	}
 }
 //clr submit
@@ -120,7 +121,12 @@ function debug(dump){
 	       //push at end
 	       debugQueue.push(dump + "<br/>");
 	       if(printing.indexOf("debug")==-1) cutePrinter(true,"debug","debugQueue");
-	       debugDiv.scrollTop=debugDiv.scrollHeight;
+}
+function console(dump){
+	       consoleDiv = document.getElementById("console");
+	       //push at end
+	       consoleQueue.push(dump + "<br/>");
+	       if(printing.indexOf("console")==-1) cutePrinter(true,"console","consoleQueue");
 }
 
 function escapeHTML(html){
@@ -136,4 +142,6 @@ function focus(inp){
 function focusSet(){
 	focus(document.getElementById("clr"));
 }
-
+function refresh(container){
+	container.innerHTML = unescapeHTML(container.innerHTML);
+}

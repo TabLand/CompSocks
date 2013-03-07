@@ -6,10 +6,10 @@
 	<body onload="configure()" onclick="focusSet()">
 		<div id="debug" class="debug"></div>
 		<div id="console" class="console">
-		Welcome, visitor <span> 1 </span> to the City University LSU Computing Society Website.\n
-		Here at CompSocks, we believe in simplicity, and 1 dimensional experiences.\n
-		Therefore this webpage does not contain any clickable links (though there might be a hack for that).\n
-		Please type <a id="help" href="#">help</a> for help (followed by a carriage return) \n
+		Welcome, visitor <span> 1 </span> to the City University LSU Computing Society Website.
+		Here at CompSocks, we believe in simplicity, and 1 dimensional experiences.
+		Therefore this webpage does not contain any clickable links (though there might be a hack for that).
+		Please type <a id="help" href="#">help</a> for help (followed by a carriage return).
 		</div>
 		<input type="text" name="consoleLineReader" id="clr" class="clr" onkeydown="submit(event)" autofocus="autofocus" onblur="focus(this)"/>
 	</body>

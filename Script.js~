@@ -3,8 +3,8 @@ var str = null;
 var clrstr = null;
 var xmlhttp = null;
 var timeout = 1;
-var printing = new Array();
-var printSpeed = 3;
+printing = new Array("test");
+var printSpeed = 1;
 var url = "http://localhost/rbbc526/comms.php";
 var debugQueue = new Array();
 var consoleQueue = new Array();
@@ -58,53 +58,32 @@ function httpHandler(){
 }
 
 function cutePrinter(appendMode, id, queueName){
-	print_ing = printing.indexOf(id);
 	queue = eval(queueName);
 	//threading function
         container = document.getElementById(id);
-	func = "cutePrinter("+appendMode+",\""+id+"\",\""+queueName+"\")"
-	if(queue.length > 0) {
+	//if id is not being printed to, set it as printing      
+	for(j=0;j<queue.length;j=j+1) {
 		//read from start, dont modify queue
-		string = queue[0];
-		//if id is not being printed to, set it as printing
-		if(print_ing==-1){
-			printing.push(id);
-		}
+		string = queue[j];
+
                 container.scrollTop=debugDiv.scrollHeight;
-		if(string.length > printSpeed-1){
+		for(i=0;i<string.length;i+=printSpeed){
+			if(i+printSpeed > string.length){
+				printSpeed = string.length -i;
+			}
 			if(appendMode){
-			  container.innerHTML += string.substr(0,printSpeed);
-		          //alert(func);
+			  container.innerHTML += string.substr(i,printSpeed);
 			}
 			else{
-			  container.innerHTML = string.substr(0,printSpeed);	
+			  container.innerHTML = string.substr(i,printSpeed);	
 			}
-			  string = string.substr(printSpeed,string.length-1);
   			  eval(queueName)[0] = string;
-			  iterate(func,timeout);	
-		}
-		else{
-			if(appendMode){
-			  container.innerHTML += string;
-		          //alert(func);
-			}
-			else{
-			  container.innerHTML = string;	
-			}
-			//string is empty, modify queue
-  			eval(queueName).shift();
-    			iterate(func,timeout);
- 			refresh(container);
 		}
 	}
-	else{
-		//stop printing if printing
-		if(print_ing!=-1){
-			printing.splice(print_ing,1);
-		}
-	 	refresh(container);
-	 	refresh(container);		
-	}
+	//stop printing if printing
+	printing.splice(printing.indexOf(id),1);
+	refresh(container);
+	refresh(container);
 }
 //clr submit
 function submit(keyPress){
@@ -129,13 +108,25 @@ function debug(dump){
 	       debugDiv = document.getElementById("debug");
 	       //push at end
 	       debugQueue.push(dump + "\n");
-	       if(printing.indexOf("debug")==-1) cutePrinter(true,"debug","debugQueue");
+	       if(printing.indexOf("debug")==-1){
+	       		cutePrinter(true,"debug","debugQueue");
+	   		if(printing.indexOf("debug")==-1){
+				printing.push("debug");
+			}  
+	       		//alert("started debug printer" + printing);
+	       }
 }
 function console(dump){
 	       consoleDiv = document.getElementById("console");
 	       //push at end
 	       consoleQueue.push(dump + "\n");
-	       if(printing.indexOf("console")==-1) cutePrinter(true,"console","consoleQueue");
+	       if(printing.indexOf("console")==-1){
+	       		 cutePrinter(true,"console","consoleQueue");
+	       		 if(printing.indexOf("console")==-1){
+				printing.push("console");
+			 } 
+ 	       		 //alert("started console printer" + printing);
+	       }
 }
 
 function escapeHTML(html){
@@ -159,15 +150,10 @@ function configure(){
 	serverComms();	
 	refresh(document.getElementById("console"));
 }
+function load(){
+	setTimeout("configure()",500);
+}
 function refresh(container){
 	container.innerHTML = unescapeHTML(container.innerHTML);
 	//alert(container.innerHTML);
-}
-function iterate(func, timeout){
-	if(timeout<1){
-		eval(func);
-	}
-	else{
-		setTimeout(func,timeout);
-	}
 }

@@ -26,7 +26,7 @@ function serverComms()
 	}
 	xmlhttp.onreadystatechange=httpHandler;
 
-	debug("Sending asynchronous HTTP GET request to " + url);
+	debug("------------------------------------------------------mklnSending asynchronous HTTP GET request to " + url);
 	debug("Parameter q has been set to " + clrstr);
 	xmlhttp.open("GET",url+"?q="+clrstr,true);
 	xmlhttp.send();
@@ -57,11 +57,11 @@ function httpHandler(){
 	debug("End Packet");
 }
 
-function cutePrinter(appendMode, id, string){
+function cutePrinter(appendMode, id, stringName){
 
 	//threading function
         container = document.getElementById(id);
-	//if id is not being printed to, set it as printing      
+	string = eval(stringName);    
         container.scrollTop=debugDiv.scrollHeight;
         printSpeed = Math.ceil(string.length/timeout)+1;
 	if(printSpeed > string.length){
@@ -73,18 +73,18 @@ function cutePrinter(appendMode, id, string){
 	else{
 	     container.innerHTML = string.substr(0,printSpeed);	
 	}
-	string = string.substr(printSpeed);
-	func = "cutePrinter("+appendMode+",\""+id+"\",\""+string+"\")";
+	strfunc = stringName +"=\"" + string.substr(printSpeed)+"\";";
+	eval(strfunc);
+	refresh();
+	func = "cutePrinter("+appendMode+",\""+id+"\",\""+stringName+"\")";
 	//alert(string + "woah");
-
-
+	
 	if(string.length>0){
 		setTimeout(func, timeout);
 	}
 	else{
 		//stop printing if printing
 		printing.splice(printing.indexOf(id),1);
-
 	}
 
 }
@@ -107,27 +107,28 @@ function submit(keyPress){
 	}
 
 }
-function debug(dump){
-	       debugDiv = document.getElementById("debug");
-	       //push at end
-	       debugQueue = debugQueue + dump + "mkln";
-	       if(printing.indexOf("debug")==-1){
-	       		cutePrinter(true,"debug",debugQueue);
-	   		if(printing.indexOf("debug")==-1){
-				printing.push("debug");
-			}  
-
-	       }
-}
 function console(dump){
 	       consoleDiv = document.getElementById("console");
 	       //push at end
 	       consoleQueue = consoleQueue + dump + "mkln";
 	       if(printing.indexOf("console")==-1){
-	       		 cutePrinter(true,"console",consoleQueue);
+	       		 cutePrinter(true,"console","consoleQueue");
 	       		 if(printing.indexOf("console")==-1){
 				printing.push("console");
 			 } 
+	       }
+}
+
+function debug(dump){
+	       debugDiv = document.getElementById("debug");
+	       //push at end
+	       debugQueue = debugQueue + dump + "mkln";
+	       if(printing.indexOf("debug")==-1){
+	       		cutePrinter(true,"debug","debugQueue");
+	   		if(printing.indexOf("debug")==-1){
+				printing.push("debug");
+			}  
+
 	       }
 }
 
@@ -135,7 +136,7 @@ function escapeHTML(html){
 	return html.replace("<br/>","mkln","g").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function unescapeHTML(html){
-	return html.replace("mkln","<br/>","g").replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
+	return html.replace(/mkln/gi,"<br/>").replace( "&amp;","&","gi").replace("&lt;","<","gi").replace("&gt;",">","gi");
 }
 function focus(inp){
 	inp.select();
@@ -148,15 +149,13 @@ function configure(){
 	focusSet();
 	clrstr = "init";
 	serverComms();	
-	refresh();
 }
 function load(){
 	setTimeout("configure()",500);
-	setInterval("refresh()",100);
 }
 function refresh(){
-	debug = document.getElementById("debug");
-	console = document.getElementById("console");
-	debug.innerHTML = unescapeHTML(debug.innerHTML);
-	console.innerHTML = unescapeHTML(console.innerHTML);
+	debugDiv = document.getElementById("debug");
+	consoleDiv = document.getElementById("console");
+	debugDiv.innerHTML = unescapeHTML(debugDiv.innerHTML);
+	consoleDiv.innerHTML = unescapeHTML(consoleDiv.innerHTML);
 }

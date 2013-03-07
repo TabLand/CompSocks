@@ -1,5 +1,5 @@
 <?php
 
-	echo "good try";
+	echo "you said: " . $_GET["q"];
 
 ?>

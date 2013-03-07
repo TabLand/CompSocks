@@ -26,12 +26,13 @@ input#clr{
 }
 
 div#debug{
-	color: #0000ff;
+	color:white;
 	position: absolute;
 	height: 90%;
 	width: 20%;
 	right: 5%;
 	overflow: hidden;
+	border: 1px solid white;
 }
 div#console{
 	position: absolute;
@@ -40,5 +41,3 @@ div#console{
 	width: 80%;
 	left: 2%;
 }
-
-

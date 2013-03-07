@@ -2,12 +2,13 @@
 var str = null;
 var clrstr = null;
 var xmlhttp = null;
-var timeout = 0;
+var timeout = 1;
 var printing = new Array();
-
+var printSpeed = 6;
 var url = "http://localhost/rbbc526/comms.php";
 var debugQueue = new Array();
 var consoleQueue = new Array();
+
 function serverComms()
 {
 	if (clrstr.length==0){ 
@@ -51,7 +52,7 @@ function httpHandler(){
 	       str = xmlhttp.responseText;
        	       //more debugging
 	       debug("Cute printer typing: " + str);
-	       console(str + "<br/>");
+	       console(str + "\n");
 	     }
 	debug("End Packet");
 }
@@ -70,23 +71,30 @@ function cutePrinter(appendMode, id, queueName){
 			printing.push(id);
 		}
                 container.scrollTop=debugDiv.scrollHeight;
-		if(string.length > 0){
+		if(string.length > printSpeed-1){
 			if(appendMode){
-			  container.innerHTML += string.substr(0,1);
+			  container.innerHTML += string.substr(0,printSpeed);
 		          //alert(func);
 			}
 			else{
-			  container.innerHTML = string.substr(0,1);	
+			  container.innerHTML = string.substr(0,printSpeed);	
 			}
-			  string = string.substr(1,string.length-1);
+			  string = string.substr(printSpeed,string.length-1);
   			  eval(queueName)[0] = string;
-			  setTimeout(func,timeout);	
+			  iterate(func,timeout);	
 		}
 		else{
-			  //string is empty, modify queue
-  			  eval(queueName).shift();
-    			  setTimeout(func,timeout);
- 			  refresh(container);
+			if(appendMode){
+			  container.innerHTML += string;
+		          //alert(func);
+			}
+			else{
+			  container.innerHTML = string;	
+			}
+			//string is empty, modify queue
+  			eval(queueName).shift();
+    			iterate(func,timeout);
+ 			refresh(container);
 		}
 	}
 	else{
@@ -94,7 +102,8 @@ function cutePrinter(appendMode, id, queueName){
 		if(print_ing!=-1){
 			printing.splice(print_ing,1);
 		}
-	 	refresh(container);	
+	 	refresh(container);
+	 	refresh(container);		
 	}
 }
 //clr submit
@@ -119,21 +128,23 @@ function submit(keyPress){
 function debug(dump){
 	       debugDiv = document.getElementById("debug");
 	       //push at end
-	       debugQueue.push(dump + "<br/>");
+	       debugQueue.push(dump + "\n");
 	       if(printing.indexOf("debug")==-1) cutePrinter(true,"debug","debugQueue");
 }
 function console(dump){
 	       consoleDiv = document.getElementById("console");
 	       //push at end
-	       consoleQueue.push(dump + "<br/>");
+	       consoleQueue.push(dump + "\n");
 	       if(printing.indexOf("console")==-1) cutePrinter(true,"console","consoleQueue");
 }
 
 function escapeHTML(html){
-	return html.replace("<br/>","\n","g").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	return html.replace("<br/>","\n","g");
+	//.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function unescapeHTML(html){
-	return html.replace("\n","<br/>","g").replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
+	return html.replace("\n","<br/>","g");
+	//.replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
 }
 function focus(inp){
 	inp.select();
@@ -142,6 +153,21 @@ function focus(inp){
 function focusSet(){
 	focus(document.getElementById("clr"));
 }
+function configure(){
+	focusSet();
+	clrstr = "init";
+	serverComms();	
+	refresh(document.getElementById("console"));
+}
 function refresh(container){
 	container.innerHTML = unescapeHTML(container.innerHTML);
+	//alert(container.innerHTML);
+}
+function iterate(func, timeout){
+	if(timeout<1){
+		eval(func);
+	}
+	else{
+		setTimeout(func,timeout);
+	}
 }

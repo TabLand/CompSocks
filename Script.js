@@ -2,12 +2,12 @@
 var str = null;
 var clrstr = null;
 var xmlhttp = null;
-var timeout = 1;
+var timeout = 5;
 printing = new Array("test");
 var printSpeed = 1;
 var url = "http://localhost/rbbc526/comms.php";
-var debugQueue = new Array();
-var consoleQueue = new Array();
+var debugQueue = "";
+var consoleQueue = "";
 
 function serverComms()
 {
@@ -42,7 +42,7 @@ function httpHandler(){
   	  	response = xmlhttp.response;
   	  }
 	// all statuses here can be printed to the debug screen.
-	  debug("------------------------------------------------------\nStart Packet");
+	  debug("------------------------------------------------------mklnStart Packet");
 	  debug("http{state=" + xmlhttp.readyState + ",status=" + xmlhttp.readyState + "}");
   	  debug("http.response = " + response);
   	  
@@ -52,38 +52,41 @@ function httpHandler(){
 	       str = xmlhttp.responseText;
        	       //more debugging
 	       debug("Cute printer typing: " + str);
-	       console(str + "\n");
+	       console(str + "mkln");
 	     }
 	debug("End Packet");
 }
 
-function cutePrinter(appendMode, id, queueName){
-	queue = eval(queueName);
+function cutePrinter(appendMode, id, string){
+
 	//threading function
         container = document.getElementById(id);
 	//if id is not being printed to, set it as printing      
-	for(j=0;j<queue.length;j=j+1) {
-		//read from start, dont modify queue
-		string = queue[j];
-
-                container.scrollTop=debugDiv.scrollHeight;
-		for(i=0;i<string.length;i+=printSpeed){
-			if(i+printSpeed > string.length){
-				printSpeed = string.length -i;
-			}
-			if(appendMode){
-			  container.innerHTML += string.substr(i,printSpeed);
-			}
-			else{
-			  container.innerHTML = string.substr(i,printSpeed);	
-			}
-  			  eval(queueName)[0] = string;
-		}
+        container.scrollTop=debugDiv.scrollHeight;
+        printSpeed = Math.ceil(string.length/timeout)+1;
+	if(printSpeed > string.length){
+	     printSpeed = string.length;
 	}
-	//stop printing if printing
-	printing.splice(printing.indexOf(id),1);
-	refresh(container);
-	refresh(container);
+	if(appendMode){
+	     container.innerHTML += string.substr(0,printSpeed);
+	}
+	else{
+	     container.innerHTML = string.substr(0,printSpeed);	
+	}
+	string = string.substr(printSpeed);
+	func = "cutePrinter("+appendMode+",\""+id+"\",\""+string+"\")";
+	//alert(string + "woah");
+
+
+	if(string.length>0){
+		setTimeout(func, timeout);
+	}
+	else{
+		//stop printing if printing
+		printing.splice(printing.indexOf(id),1);
+
+	}
+
 }
 //clr submit
 function submit(keyPress){
@@ -107,35 +110,32 @@ function submit(keyPress){
 function debug(dump){
 	       debugDiv = document.getElementById("debug");
 	       //push at end
-	       debugQueue.push(dump + "\n");
+	       debugQueue = debugQueue + dump + "mkln";
 	       if(printing.indexOf("debug")==-1){
-	       		cutePrinter(true,"debug","debugQueue");
+	       		cutePrinter(true,"debug",debugQueue);
 	   		if(printing.indexOf("debug")==-1){
 				printing.push("debug");
 			}  
-	       		//alert("started debug printer" + printing);
+
 	       }
 }
 function console(dump){
 	       consoleDiv = document.getElementById("console");
 	       //push at end
-	       consoleQueue.push(dump + "\n");
+	       consoleQueue = consoleQueue + dump + "mkln";
 	       if(printing.indexOf("console")==-1){
-	       		 cutePrinter(true,"console","consoleQueue");
+	       		 cutePrinter(true,"console",consoleQueue);
 	       		 if(printing.indexOf("console")==-1){
 				printing.push("console");
 			 } 
- 	       		 //alert("started console printer" + printing);
 	       }
 }
 
 function escapeHTML(html){
-	return html.replace("<br/>","\n","g");
-	//.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	return html.replace("<br/>","mkln","g").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function unescapeHTML(html){
-	return html.replace("\n","<br/>","g");
-	//.replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
+	return html.replace("mkln","<br/>","g").replace( "&amp;","&","g").replace("&lt;","<","g").replace("&gt;",">","g");
 }
 function focus(inp){
 	inp.select();
@@ -148,12 +148,15 @@ function configure(){
 	focusSet();
 	clrstr = "init";
 	serverComms();	
-	refresh(document.getElementById("console"));
+	refresh();
 }
 function load(){
 	setTimeout("configure()",500);
+	setInterval("refresh()",100);
 }
-function refresh(container){
-	container.innerHTML = unescapeHTML(container.innerHTML);
-	//alert(container.innerHTML);
+function refresh(){
+	debug = document.getElementById("debug");
+	console = document.getElementById("console");
+	debug.innerHTML = unescapeHTML(debug.innerHTML);
+	console.innerHTML = unescapeHTML(console.innerHTML);
 }

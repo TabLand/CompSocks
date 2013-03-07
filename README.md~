@@ -10,6 +10,11 @@ WILL SHARE FTP DETAILS OF COMPSOCKS.NET AFTER TRANSFER
 http://www.w3schools.com/php/php_ajax_php.asp
 PHP Website. Python later...
 
+Teletypewriter is almost working, stupid newline and html <br/> bugs...
+
+
+
+
 Visitor count needs to be in binary
 
 No anchors what so ever

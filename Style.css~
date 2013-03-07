@@ -14,15 +14,23 @@ a{
 }
 /*the console line reader input box*/
 input#clr{
-	width:99%;
+	width:75%;
 	color:#ffffff;
 	background-color:#000000;
 	border: 1px #00ff00 solid;
 	font-size:13px;
 	padding: 3px ;
 	position:absolute;
-	left: 3px;
+	left: 4px;
 	bottom: 0px;
+}
+
+div#debug{
+	color: #0000ff;
+	position: absolute;
+	height: 90%;
+	width: 20%;
+	right: 5%;
 }
 
 

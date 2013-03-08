@@ -32,12 +32,11 @@ div#debug{
 	width: 20%;
 	right: 5%;
 	overflow: hidden;
-	border: 1px solid white;
 }
 div#console{
 	position: absolute;
 	overflow: hidden;
-	height: 90%;
-	width: 70%;
+	height: 80%;
+	width: 65%;
 	left: 2%;
 }

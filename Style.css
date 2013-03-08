@@ -30,13 +30,13 @@ div#debug{
 	position: absolute;
 	height: 90%;
 	width: 20%;
-	right: 5%;
+	right: 3%;
 	overflow: hidden;
 }
 div#console{
 	position: absolute;
 	overflow: hidden;
-	height: 90%;
-	width: 70%;
+	height: 80%;
+	width: 65%;
 	left: 2%;
 }

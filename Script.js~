@@ -3,11 +3,11 @@ var str = null;
 var clrstr = null;
 var xmlhttp = null;
 var timeout = 5;
-printing = new Array("test");
+printing = new Array('test');
 var printSpeed = 1;
-var url = "http://localhost/rbbc526/comms.php";
-var debugQueue = "";
-var consoleQueue = "";
+var url = 'http://localhost/rbbc526/comms.php';
+var debugQueue = '';
+var consoleQueue = '';
 
 function serverComms()
 {
@@ -22,13 +22,13 @@ function serverComms()
 	  xmlhttp=new XMLHttpRequest();
 	}
 	else{// code for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  xmlhttp=new ActiveXObject('Microsoft.XMLHTTP');
 	}
 	xmlhttp.onreadystatechange=httpHandler;
 
-	debug("------------------------------------------------------mklnSending asynchronous HTTP GET request to " + url);
-	debug("Parameter q has been set to " + clrstr);
-	xmlhttp.open("GET",url+"?q="+clrstr,true);
+	debug('------------------------------------------------------<br/>Sending asynchronous HTTP GET request to ' + url);
+	debug('Parameter q has been set to ' + clrstr);
+	xmlhttp.open('GET',url+'?q='+clrstr,true);
 	xmlhttp.send();
 }
 
@@ -36,25 +36,25 @@ function httpHandler(){
 
 	  //bug
   	  if(xmlhttp.response.length < 1){
-  	  	response = "No valid response";
+  	  	response = 'No valid response';
   	  }
   	  else {
   	  	response = xmlhttp.response;
   	  }
 	// all statuses here can be printed to the debug screen.
-	  debug("------------------------------------------------------mklnStart Packet");
-	  debug("http{state=" + xmlhttp.readyState + ",status=" + xmlhttp.readyState + "}");
-  	  debug("http.response = " + response);
+	  debug('------------------------------------------------------<br/>Start Packet');
+	  debug('http{state=' + xmlhttp.readyState + ',status=' + xmlhttp.readyState + '}');
+  	  debug('http.response = ' + response);
   	  
 	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
 	  	//this is the function which uses xmlhttp.responseText to use responses from server
 	  	//change this to cute printer
 	       str = xmlhttp.responseText;
        	       //more debugging
-	       debug("Cute printer typing: " + str);
-	       console(str + "mkln");
+	       debug('Cute printer typing: ' + str);
+	       console(str + '<br/>');
 	     }
-	debug("End Packet");
+	debug('End Packet');
 }
 
 function cutePrinter(appendMode, id, stringName){
@@ -73,16 +73,19 @@ function cutePrinter(appendMode, id, stringName){
 	else{
 	     container.innerHTML = string.substr(0,printSpeed);	
 	}
-	strfunc = stringName +"=\"" + string.substr(printSpeed)+"\";";
+	string = string.substr(printSpeed);
+	strfunc = stringName +'=\'' + string+'\';';
 	eval(strfunc);
-	refresh();
-	func = "cutePrinter("+appendMode+",\""+id+"\",\""+stringName+"\")";
-	//alert(string + "woah");
+	func = 'cutePrinter('+appendMode+',\''+id+'\',\''+stringName+'\')';
+	//alert(string + 'woah');
 	
 	if(string.length>0){
 		setTimeout(func, timeout);
 	}
 	else{
+		//refresh at end of cycle
+		//refresh(id);
+		alert("refreshing "+id);
 		//stop printing if printing
 		printing.splice(printing.indexOf(id),1);
 	}
@@ -100,63 +103,69 @@ function submit(keyPress){
 	}
 	//enter key pressed
 	else if(keyPress.keyCode==13){
-		clrstr = document.getElementById("clr").value;
+		clrstr = document.getElementById('clr').value;
 		serverComms();
 		//clear clr
-		document.getElementById("clr").value = "";
+		document.getElementById('clr').value = '';
 	}
 
 }
 function console(dump){
-	       consoleDiv = document.getElementById("console");
+
+	       consoleDiv = document.getElementById('console');
 	       //push at end
-	       consoleQueue = consoleQueue + dump + "mkln";
-	       if(printing.indexOf("console")==-1){
-	       		 cutePrinter(true,"console","consoleQueue");
-	       		 if(printing.indexOf("console")==-1){
-				printing.push("console");
+	       consoleQueue = consoleQueue + escapeHTML( dump + "<br/>");
+       	       //alert(consoleQueue);
+	       if(printing.indexOf('console')==-1){
+	       		 cutePrinter(true,'console','consoleQueue');
+	       		 if(printing.indexOf('console')==-1){
+				printing.push('console');
 			 } 
 	       }
 }
 
 function debug(dump){
-	       debugDiv = document.getElementById("debug");
+
+	       debugDiv = document.getElementById('debug');
 	       //push at end
-	       debugQueue = debugQueue + dump + "mkln";
-	       if(printing.indexOf("debug")==-1){
-	       		cutePrinter(true,"debug","debugQueue");
-	   		if(printing.indexOf("debug")==-1){
-				printing.push("debug");
+	       debugQueue =  debugQueue + escapeHTML(dump + "<br/>");
+	       if(printing.indexOf('debug')==-1){
+	       		cutePrinter(true,'debug','debugQueue');
+	   		if(printing.indexOf('debug')==-1){
+				printing.push('debug');
 			}  
 
 	       }
 }
 
+
 function escapeHTML(html){
-	return html.replace("<br/>","mkln","g").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+//	html = html.replace(/<br\/>/gi, "\n");
+	html = escape(html);
+	return String(html);
 }
 function unescapeHTML(html){
-	return html.replace(/mkln/gi,"<br/>").replace( "&amp;","&","gi").replace("&lt;","<","gi").replace("&gt;",">","gi");
+	html = unescape(html);
+//	html = html.replace(/\\n/gi,/<br\/>/);
+	return String(html);
 }
 function focus(inp){
 	inp.select();
 	inp.focus();
 }
 function focusSet(){
-	focus(document.getElementById("clr"));
+	focus(document.getElementById('clr'));
 }
 function configure(){
 	focusSet();
-	clrstr = "init";
+	clrstr = 'init';
 	serverComms();	
 }
 function load(){
-	setTimeout("configure()",500);
-//	setInterval("refresh()",50);
+	setTimeout('configure()',500);
 }
-function refresh(){
-	debugDiv = document.getElementById("debug");
-	consoleDiv = document.getElementById("console");
-	debugDiv.innerHTML = unescapeHTML(debugDiv.innerHTML);
-	consoleDiv.innerHTML = unescapeHTML(consoleDiv.innerHTML);
+function refresh(id){
+	div = document.getElementById(id);
+	div.innerHTML = unescapeHTML(div.innerHTML);
+        div.scrollTop=debugDiv.scrollHeight;
 }

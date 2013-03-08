@@ -10,7 +10,8 @@ WILL SHARE FTP DETAILS OF COMPSOCKS.NET AFTER TRANSFER. STILL WAITING
 
 Teletypewriter is almost working, stupid newline and html <br/> bugs...
 
-
+use extention .sml (sock mark up language, parody of html language) to write code in php, javascript, html.
+Details on mysql logins and javascript wrappers will be confirmed soon.
 
 
 Visitor count needs to be in binary
@@ -23,6 +24,7 @@ Google only sees what we show it
 a broken hidden form without a submit button. Easter egg. Enter email address for binary rewards.
 Riddle?
 
+See website section of event toolkit for tasks. I'm just listing tasks here atm. The toolkit is probably out of date.
 
 http://www.w3schools.com/php/php_ajax_php.asp - DONE
 PHP Website. Python later...

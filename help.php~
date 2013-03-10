@@ -1,0 +1,21 @@
+<?php
+	$links = array();
+	$links[0] = "Home";
+	$links[1] = "About Us";
+	$links[2] = "Events";
+	$links[3] = "Sponsors";
+	$links[4] = "Contact Us";
+	$links[5] = "Home";
+	$links[6] = "About Us";
+	$links[7] = "Events";
+	$links[8] = "Sponsors";
+	$links[9] = "Contact Us";
+	
+	foreach($links as $link){
+		echo makelink($link) . "<br/>";
+	}
+	
+	function makelink($name){
+		return '<a href="#">'.$name."</a>";
+	}
+?>

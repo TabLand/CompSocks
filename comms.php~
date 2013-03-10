@@ -1,11 +1,20 @@
 <?php
-	 $file = $_GET["q"].".php";
-	 if(file_exists($file)){
-	 	include $file;
+	 error_reporting(E_ALL);
+	 $params = explode(" ",$_GET["q"]);
+
+	 print_r($params);
+
+	 if(count($params)>0){
+		 $hold = array_splice($params,0,1);
+		 $command = strtolower($hold[0]);
+	 };
+	 
+	 if(file_exists($command.".php")){
+	 	include $command.".php";
 	 }
 	 else {
 	 	//did you mean:?
-	 	echo "command not found, try again";
+	 	echo "\"" . $command . "\" command not found, try again";
 	 }
 
 ?>

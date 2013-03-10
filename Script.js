@@ -2,7 +2,7 @@
 var str = null;
 var clrstr = null;
 var xmlhttp = null;
-var timeout = 5;
+var timeout = 10;
 printing = new Array('test');
 var printSpeed = 1;
 var url = 'http://localhost/rbbc526/comms.php';
@@ -57,39 +57,28 @@ function httpHandler(){
 	debug('End Packet');
 }
 
-function cutePrinter(appendMode, id, stringName){
+function cutePrinter(appendMode, id, scratchpad){
 
 	//threading function
         container = document.getElementById(id);
-	string = eval(stringName);    
-        container.scrollTop=debugDiv.scrollHeight;
-        printSpeed = Math.ceil(string.length/timeout)+1;
-	if(printSpeed > string.length){
-	     printSpeed = string.length;
-	}
-	if(appendMode){
-	     container.innerHTML += string.substr(0,printSpeed);
-	}
-	else{
-	     container.innerHTML = string.substr(0,printSpeed);	
-	}
-	string = string.substr(printSpeed);
-	strfunc = stringName +'=\'' + string+'\';';
-	eval(strfunc);
-	func = 'cutePrinter('+appendMode+',\''+id+'\',\''+stringName+'\')';
-	//alert(string + 'woah');
+        scratchpadContainer = document.getElementById(scratchpad);
+        children = scratchpadContainer.childNodes;        
 	
-	if(string.length>0){
+	if(children.length>0){
+		container.appendChild(children[0]);
+		//append removes stuff from previous container, so removal is not necassary
+	
+		func = 'cutePrinter('+appendMode+',\''+id+'\',\''+scratchpad+'\')';
+		//alert(string + 'woah');	
 		setTimeout(func, timeout);
 	}
 	else{
 		//refresh at end of cycle
-		refresh(id);
 		//alert("refreshing "+id);
 		//stop printing if printing
 		printing.splice(printing.indexOf(id),1);
 	}
-
+	refresh(id);
 }
 //clr submit
 function submit(keyPress){
@@ -110,34 +99,24 @@ function submit(keyPress){
 	}
 
 }
-function console(dump){
 
-	       consoleDiv = document.getElementById('console');
+function debug(dumpText){
+	dump(dumpText,"debug");
+}
+function console(dumpText){
+	dump(dumpText,"console");
+}
+function dump(dumpText,id){
+	       div = document.getElementById(id);
 	       //push at end
-	       consoleQueue = consoleQueue + escapeHTML( dump + "<br/>");
-       	       //alert(consoleQueue);
-	       if(printing.indexOf('console')==-1){
-	       		 cutePrinter(true,'console','consoleQueue');
-	       		 if(printing.indexOf('console')==-1){
-				printing.push('console');
+		document.getElementById(id + "Scratchpad").innerHTML += dumpText + "<br/>";
+	       if(printing.indexOf(id)==-1){
+	       		 cutePrinter(true,id,id+'Scratchpad');
+	       		 if(printing.indexOf(id)==-1){
+				printing.push(id);
 			 } 
 	       }
 }
-
-function debug(dump){
-
-	       debugDiv = document.getElementById('debug');
-	       //push at end
-	       debugQueue =  debugQueue + escapeHTML(dump + "<br/>");
-	       if(printing.indexOf('debug')==-1){
-	       		cutePrinter(true,'debug','debugQueue');
-	   		if(printing.indexOf('debug')==-1){
-				printing.push('debug');
-			}  
-
-	       }
-}
-
 
 function escapeHTML(html){
 //	html = html.replace(/<br\/>/gi, "\n");
@@ -166,6 +145,6 @@ function load(){
 }
 function refresh(id){
 	div = document.getElementById(id);
-	div.innerHTML = unescapeHTML(div.innerHTML);
-        div.scrollTop=debugDiv.scrollHeight;
+	//div.innerHTML = unescapeHTML(div.innerHTML);
+        div.scrollTop=div.scrollHeight;
 }

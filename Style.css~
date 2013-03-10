@@ -33,6 +33,12 @@ div#debug{
 	right: 3%;
 	overflow: hidden;
 }
+div#scratchpad{
+	color:black;
+	height:0px;
+	width:0px;
+	overflow:hidden;
+}
 div#console{
 	position: absolute;
 	overflow: hidden;

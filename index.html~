@@ -6,7 +6,6 @@
 	<body onload="load()" onclick="focusSet()">
 		<div id="scratchpad" class="scratchpad"></div>
 		<div id="debug" class="debug"></div>
-		
 		<div id="console" class="console">
 		</div>
 		<input type="text" name="consoleLineReader" id="clr" class="clr" onkeydown="submit(event)" autofocus="autofocus" onblur="focus(this)"/>

@@ -2,30 +2,23 @@ CompSocks
 =========
 
 PLEASE FEEL FREE TO ADD FEATURES TO THIS.
-WILL BE UPLOADING TO http://student.city.ac.uk/~rbbc526
-SOCK TEMP HOSTING ACCOUNT. COMMITTEE HAS OPS. CAN SHARE IN DIRE CIRCUMSTANCES
-WILL SHARE FTP DETAILS OF COMPSOCKS.NET AFTER TRANSFER. STILL WAITING
+Uploaded to compsocks.net
+We almost have mail forwarding. Waiting for MX propogation
 
-
-
-Teletypewriter is almost working, stupid newline and html <br/> bugs...
-
-use extention .sml (sock mark up language, parody of html language) to write code in php, javascript, html.
 Details on mysql logins and javascript wrappers will be confirmed soon.
 
 
-Visitor count needs to be in binary
+
 
 No anchors what so ever
 some Links are private
 others are listed in a box which is deleted after 1 second.
-Google only sees what we show it
+Google only sees what we show it - NAH! Just do permalinks
 
 a broken hidden form without a submit button. Easter egg. Enter email address for binary rewards.
 Riddle?
 
-See website section of event toolkit for tasks. I'm just listing tasks here atm. The toolkit is probably out of date.
+See website section of event toolkit for tasks. I'm just listing tasks here atm. The toolkit is probably out of date. Definitely out of date
 
-http://www.w3schools.com/php/php_ajax_php.asp - DONE
-PHP Website. Python later...
 
+Visitor count needs to be in binary - DUHUN!

@@ -5,7 +5,6 @@ var xmlhttp = null;
 var timeout = 10;
 printing = new Array('test');
 var printSpeed = 1;
-var url = 'http://localhost/rbbc526/comms.php';
 var debugQueue = '';
 var consoleQueue = '';
 

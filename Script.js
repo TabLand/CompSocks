@@ -75,7 +75,7 @@ function cutePrinter(appendMode, id, scratchpad){
 		//refresh at end of cycle
 		//alert("refreshing "+id);
 		//stop printing if printing
-		printing.splice(printing.indexOf(id),1);
+		printing.splice(jQuery.inArray(id,printing),1);
 	}
 	refresh(id);
 }
